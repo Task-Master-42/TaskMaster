@@ -1,25 +1,31 @@
-const path = require('path');
-const express = require('express');
-import { Request, Response, NextFunction} from 'express';
+import path from 'path';
+import express, { Request, Response, NextFunction, Application } from 'express';
+import { ExpressError } from './types';
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+import authRouter from './routers/authRouter.ts';
+import boardRouter from './routers/boardRouter.ts';
+
+const app: Application = express();
+const PORT: string = process.env.PORT || '3000';
 
 app.use(express.json());
 
 app.use('/', express.static(path.resolve(__dirname, '../build')));
 app.use('/assets', express.static(path.resolve(__dirname, '../assets')));
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (_req: Request, res: Response) => {
   return res.status(200).sendFile(path.join(__dirname, '../client/index.html'));
 })
 
-app.use('*', (req: Request, res: Response) => {
+app.use('/auth', authRouter);
+app.use('/board', boardRouter);
+
+app.use('*', (_req: Request, res: Response) => {
   res.status(404).send("File not found");
 })
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  const defaultErr = {
+app.use((err: ExpressError, _req: Request, res: Response, _next: NextFunction) => {
+  const defaultErr: ExpressError = {
     log: 'Express error handler caught an unknown middleware error.',
     status: 500,
     message: {err: 'An error occurred.'},
