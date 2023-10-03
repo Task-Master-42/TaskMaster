@@ -1,6 +1,7 @@
 import path from 'path';
 import express, { Request, Response, NextFunction, Application } from 'express';
 import { ExpressError } from './types';
+const cookieParser = require('cookie-parser');
 
 import authRouter from './routers/authRouter.ts';
 import boardRouter from './routers/boardRouter.ts';
@@ -9,6 +10,7 @@ const app: Application = express();
 const PORT: string = process.env.PORT || '3000';
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.use('/', express.static(path.resolve(__dirname, '../build')));
 app.use('/assets', express.static(path.resolve(__dirname, '../assets')));
