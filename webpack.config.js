@@ -5,14 +5,14 @@ module.exports = {
   devServer: {
     static: {
       directory: path.resolve(__dirname, './assets'),
-      publicPath: '/assets'
+      publicPath: '/assets',
     },
     proxy: {
-      '/api': 'http://localhost:3000'
+      '/api': 'http://localhost:3000',
     },
-    headers: {'Access-Control-Allow-Origin': '*'},
+    headers: { 'Access-Control-Allow-Origin': '*' },
   },
-  entry: path.join(__dirname, 'client/App.jsx'),
+  entry: path.join(__dirname, 'client/App.tsx'),
   output: {
     path: path.join(__dirname, 'build'),
     filename: 'bundle.js',
@@ -37,24 +37,20 @@ module.exports = {
       {
         test: /.s?[ac]ss$/i,
         exclude: /node_modules/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader',
-        ],
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
         use: [
-            {
-                loader: 'file-loader',
-                options: {
-                    name: '[name].[ext]',
-                    outputPath: 'images',
-                },
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'images',
             },
+          },
         ],
-      }
+      },
     ],
   },
   plugins: [
@@ -63,9 +59,6 @@ module.exports = {
     }),
   ],
   resolve: {
-    extensions: [
-      '.js',
-      '.jsx',
-    ],
+    extensions: ['.js', '.jsx'],
   },
 };
