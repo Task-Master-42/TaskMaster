@@ -50,22 +50,22 @@
 //   if (server) server.close(done);
 // });
 
-/*
+// /*
 
-Create a card
-	{board: num, column: num, name: string, desc?: string}
-	{card: num}
-Read all cards
-Update card column
-	{card: num, newColumn: num}
-	{success: boolean}
-Update card name
-	{card: num, newName: string}
-	{success: boolean}
-Update card desc
-	{card: num, newDesc: string}
-	{success: boolean}
-Delete a card
-	{card: num}
+// Create a card
+// 	{board: num, column: num, name: string, desc?: string}
+// 	{card: num}
+// Read all cards
+// Update card column
+// 	{card: num, newColumn: num}
+// 	{success: boolean}
+// Update card name
+// 	{card: num, newName: string}
+// 	{success: boolean}
+// Update card desc
+// 	{card: num, newDesc: string}
+// 	{success: boolean}
+// Delete a card
+// 	{card: num}
 
-*/
+// */
