@@ -19,11 +19,11 @@ app.get('/', (_req: Request, res: Response) => {
   return res.status(200).sendFile(path.join(__dirname, '../client/index.html'));
 })
 
-app.use('/auth', authRouter);
-app.use('/board', boardRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/board', boardRouter);
 
 app.use('*', (_req: Request, res: Response) => {
-  res.status(404).send("File not found");
+  res.status(404).send("File not found!");
 })
 
 app.use((err: ExpressError, _req: Request, res: Response, _next: NextFunction) => {

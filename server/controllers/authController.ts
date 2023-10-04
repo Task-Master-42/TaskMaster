@@ -102,6 +102,11 @@ const authController = {
             `UPDATE public.users SET hash_id = '${hashID}' WHERE user_id = '${newUserId}'`
           );
           res.locals.id = hashID;
+          // Create a board with columns for the new user
+          const boardId = await db.query(`INSERT INTO public.boards (user_id, name) VALUES (${newUserId}, 'My Board') RETURNING board_id;`)
+          await db.query(`INSERT INTO public.columns (board_id, name) VALUES (${boardId.rows[0].board_id}, 'TO DO');`);
+          await db.query(`INSERT INTO public.columns (board_id, name) VALUES (${boardId.rows[0].board_id}, 'IN PROGRESS');`);
+          await db.query(`INSERT INTO public.columns (board_id, name) VALUES (${boardId.rows[0].board_id}, 'DONE');`);
         }
       }
       next();
