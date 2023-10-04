@@ -3,6 +3,7 @@ const path = require('path');
 
 module.exports = {
   devServer: {
+    historyApiFallback: true,
     static: {
       directory: path.resolve(__dirname, './assets'),
       publicPath: '/assets',
@@ -16,6 +17,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'build'),
     filename: 'bundle.js',
+    publicPath: '/'
   },
   mode: process.env.NODE_ENV,
   module: {
