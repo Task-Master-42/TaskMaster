@@ -4,7 +4,7 @@ import { ExpressError } from './types';
 const cookieParser = require('cookie-parser');
 
 import authRouter from './routers/authRouter.ts';
-import boardRouter from './routers/boardRouter.ts';
+// import boardRouter from './routers/boardRouter.ts';
 
 const app: Application = express();
 const PORT: string = process.env.PORT || '3000';
@@ -20,7 +20,7 @@ app.get('/', (_req: Request, res: Response) => {
 })
 
 app.use('/api/auth', authRouter);
-app.use('/api/board', boardRouter);
+// app.use('/api/board', boardRouter);
 
 app.use('*', (_req: Request, res: Response) => {
   res.status(404).send("File not found!");
