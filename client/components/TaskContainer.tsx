@@ -1,45 +1,63 @@
 import React, { useState } from 'react';
 import CreateModal from './CreateModal.tsx';
-import Task from './Task.tsx'
-import { Droppable } from 'react-beautiful-dnd';
+import Task from './Task.tsx';
+import { DragDropContext, DropResult, Droppable } from 'react-beautiful-dnd';
+import DoneContainer from './Done.tsx';
+import InProgressContainer from './Inprogress.tsx';
+import TodoContainer from './Todo.tsx';
 
 const TaskContainer: React.FC = () => {
   const [createModal, setCreateModal] = useState<boolean>(false);
+  //Set the tasks in the correct array to pass into the diff containers
+  const [tasks, setTasks] = useState<{ [key: string]: string[] }>({
+    todo: ['task1'], 
+    inprogress: [],
+    done: [],
+  });
 
+  //Checks and reorganize drag and dropped tasks
+   const onDragEnd = (result: DropResult) => {
+     if (!result.destination) return; // Task dropped outside of droppable area
 
+     //Where the dragged task began
+     const source = result.source.droppableId;
+     //Where the dragged task was dropped
+     const destination = result.destination.droppableId;
+     //The id of the where the destination was
+     const taskId = result.draggableId;
 
+     //Deconstruct the tasks
+     const updatedTasks = { ...tasks };
+     //Update the tasks by checking for each task whose id doesnt match the task id by putting it in the correct array
+     updatedTasks[source] = tasks[source].filter((id) => id !== taskId);
+     updatedTasks[destination] = [...tasks[destination], taskId];
+    //Updates the tasks stats
+     setTasks(updatedTasks);
+   };
 
   return (
     <>
-   {createModal && <CreateModal setCreateModal={setCreateModal}/>}
-    <button onClick={() => {setCreateModal(!createModal)}} className='ml-8 mt-3 mb-3 border px-4 py-1 bg-blue-500 rounded-md shadow hover:bg-blue-600 text-white'>Create</button>
-    <div className='ml-8'>
-      <div className='flex'>
-        <div id='todo' className='bg-gray-200 h-[32rem] w-64 rounded-md mr-4'>
-          <h1 className='text-slate-500 text-sm m-3'>TO DO</h1>
+      {createModal && <CreateModal setCreateModal={setCreateModal} />}
+      <button
+        onClick={() => {
+          setCreateModal(!createModal);
+        }}
+        className="ml-8 mt-3 mb-3 border px-4 py-1 bg-blue-500 rounded-md shadow hover:bg-blue-600 text-white"
+      >
+        Create
+      </button>
 
+      <DragDropContext onDragEnd={onDragEnd}>
+        <div className="ml-8">
+          <div className="flex">
+            <TodoContainer tasks={tasks.todo} />
+            <InProgressContainer tasks={tasks.inprogress} />
+            <DoneContainer tasks={tasks.done} />
+          </div>
         </div>
-        <Droppable droppableId="Progress">
-          {(provided) => (
-            <div ref={provided.innerRef} {...provided.droppableProps} id='progress' className='bg-gray-200 h-[32rem] w-64 rounded-md mr-4'>
-            <h1 className='text-slate-500 text-sm m-3'>IN PROGRESS</h1>
-            <Task />
-            {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-        <Droppable droppableId="Done">
-          {(provided) => (
-            <div ref={provided.innerRef} {...provided.droppableProps} id='done' className='bg-gray-200 h-[32rem] w-64 rounded-md mr-4'>
-            <h1 className='text-slate-500 text-sm m-3'>DONE</h1>
-            {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </div>
-    </div>
+      </DragDropContext>
     </>
-  )
-}
+  );
+};
 
 export default TaskContainer;
