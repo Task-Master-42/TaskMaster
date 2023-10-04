@@ -1,7 +1,13 @@
 import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
+import Task from './Task.tsx';
 
-const InProgressContainer: React.FC = () => {
+interface InProgressContainerProps {
+  tasks: string[];
+}
+
+const InProgressContainer: React.FC<InProgressContainerProps> = ({ tasks }) => {
+  
   return (
     <Droppable droppableId="inprogress">
       {(provided) => (
@@ -11,7 +17,10 @@ const InProgressContainer: React.FC = () => {
           id="inprogress"
           className="bg-gray-200 h-[32rem] w-64 rounded-md mr-4"
         >
-          <h1 className="text-slate-500 text-sm m-3">IN PROGRESS</h1>
+          <h1 className="text-slate-500 text-sm m-3">TO DO</h1>
+          {tasks.map((task, index) => (
+            <Task key={task} taskId={task} />
+          ))}
           {provided.placeholder}
         </div>
       )}
