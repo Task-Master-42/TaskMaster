@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ReactDOM from 'react-dom/client'
 import Login from './components/Login.tsx'
 import Dashboard from './components/Dashboard.tsx'
+import Signup from './components/Signup.tsx'
 
 const App: React.FC = () => {
   return (
@@ -10,6 +11,7 @@ const App: React.FC = () => {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Login />} />
+        <Route path='/signup' element={<Signup />} />
         <Route path='/dashboard' element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
